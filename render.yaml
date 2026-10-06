@@ -31,7 +31,7 @@ services:
       - key: HALCYON_GARDENER_KEY
         sync: false
       - key: HALCYON_SOURCE_URL
-        value: https://github.com/HALCYONCASH/HALCYONZK
+        value: https://github.com/HALCYONCASH/HALCYON-ZK
       - key: PINATA_JWT
         sync: false
       - key: PINATA_GATEWAY_URL

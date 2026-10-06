@@ -5,7 +5,7 @@ Thank you. Halcyon is small on purpose: one server file, a handful of modules, e
 ## Setting up
 
 ```sh
-git clone https://github.com/HALCYONCASH/HALCYONZK.git && cd HALCYONZK
+git clone https://github.com/HALCYONCASH/HALCYON-ZK.git && cd HALCYON-ZK
 npm ci
 npm run build
 npm run start:demo        # http://localhost:4180, the site on ten sample coins, no chain and no keys needed

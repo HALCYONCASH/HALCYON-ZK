@@ -63,7 +63,7 @@ const banner = `<!doctype html><html><head><meta charset="utf-8"><style>${css}</
 <h1>The <em>calm</em> Ethereum launchpad.</h1>
 <p>One transaction makes a coin and its locked Uniswap pool. Every trade pays the pool's 1%, and <b>the creator aims it</b>: to themselves, to holders, to a buyback, to a stock, to private notes proven in zero knowledge.</p>
 <p>No owner, no mint, no pause. Eleven contracts, one circuit, one server, open source.</p>
-<div class="url">halcyon.cash<br>github.com/HALCYONCASH/HALCYONZK</div></div>
+<div class="url">halcyon.cash<br>github.com/HALCYONCASH/HALCYON-ZK</div></div>
 <div class="flow">
   <div class="row"><div class="step"><b>launch</b><span>one transaction: the coin, 1B units, all of it in the pool at a cap in dollars (Chainlink)</span></div><span class="arrow">&#8594;</span><div class="step"><b>the pool</b><span>Uniswap v3, or v4 with the Halcyon hook's rules; the position locked forever</span></div><span class="arrow">&#8594;</span><div class="step"><b>1% on every trade</b><span>the whole fee is the coin's: the gardener collects it, every minute, in bounds</span></div></div>
   <div class="split"><div class="pot platform"><b>20%</b><span>the platform and the gardener's gas</span></div><div class="pot module"><b>80%</b><span>where the creator aimed it, switchable any time, through one of eight modules:</span></div></div>

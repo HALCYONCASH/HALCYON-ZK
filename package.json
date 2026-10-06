@@ -1,16 +1,16 @@
 {
   "name": "halcyon",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "private": true,
   "description": "Halcyon: the calm Ethereum launchpad. A coin and its locked Uniswap pool in one transaction; every trade pays 1% to the pool, 80% of it to the module the creator chose, 20% to the platform; the gardener pays the rest.",
   "license": "MIT",
   "homepage": "https://halcyon.cash",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HALCYONCASH/HALCYONZK.git"
+    "url": "git+https://github.com/HALCYONCASH/HALCYON-ZK.git"
   },
   "bugs": {
-    "url": "https://github.com/HALCYONCASH/HALCYONZK/issues"
+    "url": "https://github.com/HALCYONCASH/HALCYON-ZK/issues"
   },
   "engines": {
     "node": ">=22"

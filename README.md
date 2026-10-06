@@ -117,7 +117,7 @@ Wallets are found with EIP-6963; the site asks for a signature only for a launch
 Node 22 or later.
 
 ```sh
-git clone https://github.com/HALCYONCASH/HALCYONZK.git && cd HALCYONZK
+git clone https://github.com/HALCYONCASH/HALCYON-ZK.git && cd HALCYON-ZK
 npm ci
 npm run build
 npm run start:demo        # http://localhost:4180: the whole site on ten sample coins computed with the real pool math, no chain behind it

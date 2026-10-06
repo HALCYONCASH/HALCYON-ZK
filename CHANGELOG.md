@@ -1,8 +1,12 @@
 # Changelog
 
+## 0.9.1
+
+- The repository is `HALCYONCASH/HALCYON-ZK` (renamed before the first push); every link, the clone line, `package.json`, the footer's default Source link and the banner say so. GitHub forwards the old name, so nothing else changes.
+
 ## 0.9.0
 
-- **Open source.** The repository is public at [github.com/HALCYONCASH/HALCYONZK](https://github.com/HALCYONCASH/HALCYONZK) under the MIT license (`LICENSE`). The README now explains the whole of it for a reader who has never seen the site: the model, the live mainnet contracts and the platform's own coin, how a launch works, Mist and its circuit with the commands that check it, the gardener, the site, how to run it, how to deploy a launchpad of your own, security, the layout and the lineage. `SECURITY.md` says how to report a vulnerability; `CONTRIBUTING.md` how to set up, what the checks are and the house style.
+- **Open source.** The repository is public at [github.com/HALCYONCASH/HALCYON-ZK](https://github.com/HALCYONCASH/HALCYON-ZK) under the MIT license (`LICENSE`). The README now explains the whole of it for a reader who has never seen the site: the model, the live mainnet contracts and the platform's own coin, how a launch works, Mist and its circuit with the commands that check it, the gardener, the site, how to run it, how to deploy a launchpad of your own, security, the layout and the lineage. `SECURITY.md` says how to report a vulnerability; `CONTRIBUTING.md` how to set up, what the checks are and the house style.
 - **Nothing secret leaves the machine.** `node scripts/publish-check.mjs` (also `npm run publish-check`) reads every file git would push for the shapes of what must stay out: environment files, key and certificate files, a private key next to a word like key or secret, API tokens (Alchemy, a provider URL with a key in it, JWTs, GitHub, AWS, Slack, Stripe), seed phrases, zips and ceremony files, files GitHub refuses. It prints each find masked, never the secret, and exits 1. The deploy test plants a key and a provider URL and checks they are caught; `.gitignore` also keeps `*.ptau`, `deployments/*.partial.json`, editor folders and Windows thumbnails out.
 - **The checks on every push.** `.github/workflows/check.yml` runs the publish check, the build and `npm run check` (the contracts against the real Uniswap bytecode, the server, the deploy scripts against a hardhat node, every page in a headless Chromium) on every push and pull request.
 - **Previews.** `node scripts/previews.mjs` draws the repository's four 21:9 pictures from the demo into `docs/brand/`: the banner with the way of a fee, a coin page, the coins page and the Stats page.

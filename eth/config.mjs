@@ -85,7 +85,7 @@ export const CONFIG = {
   siteName: env('HALCYON_SITE_NAME', 'Halcyon'),
   siteUrl: env('HALCYON_SITE_URL', 'https://halcyon.cash'),
   xHandle: env('HALCYON_X', 'halcyoncash'),
-  sourceUrl: env('HALCYON_SOURCE_URL', 'https://github.com/HALCYONCASH/HALCYONZK'), /* the footer's Source link; a fork sets its own */
+  sourceUrl: env('HALCYON_SOURCE_URL', 'https://github.com/HALCYONCASH/HALCYON-ZK'), /* the footer's Source link; a fork sets its own */
 };
 export const chainInfo = () => CHAINS[CONFIG.chainId] || { ...CHAINS[1], id: CONFIG.chainId, name: `chain ${CONFIG.chainId}`, short: String(CONFIG.chainId) };
 /**
