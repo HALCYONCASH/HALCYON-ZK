@@ -1,0 +1,16 @@
+// Numbers the way the site shows them: ETH with sense, coins in short form, dollars rounded, addresses shortened, times relative.
+export const WEI = 10n ** 18n;
+export function eth(wei: string | bigint, digits = 4): string { const n = Number(BigInt(wei)) / 1e18; if (n === 0) return '0'; if (n < 0.0001) return tiny(n); if (n < 1) return n.toFixed(digits).replace(/\.?0+$/, ''); if (n < 1000) return n.toFixed(Math.min(digits, 3)).replace(/\.?0+$/, ''); return n.toLocaleString(undefined, { maximumFractionDigits: 1 }); }
+export function coins(units: string | bigint, decimals = 18): string { const n = Number(BigInt(units)) / 10 ** decimals; if (n >= 1e9) return `${(n / 1e9).toFixed(2)}B`; if (n >= 1e6) return `${(n / 1e6).toFixed(2)}M`; if (n >= 1e3) return `${(n / 1e3).toFixed(1)}K`; if (n >= 1) return n.toFixed(2); if (n === 0) return '0'; return n.toPrecision(3); }
+/** A small number without scientific notation: the zeros after the point are counted once (0.0₄351), the way price tickers show them. */
+export function tiny(n: number, sig = 3): string { if (n === 0) return '0'; if (n >= 0.001) return n.toFixed(6).replace(/0+$/, '').replace(/\.$/, ''); const zeros = -Math.floor(Math.log10(n)) - 1; const digits = Math.round(n * 10 ** (zeros + sig)).toString().slice(0, sig).replace(/0+$/, ''); const sub = String(zeros).split('').map(d => '₀₁₂₃₄₅₆₇₈₉'[Number(d)]).join(''); return `0.0${sub}${digits}`; }
+export function usd(n: number): string { if (!n) return ''; if (n >= 1e6) return `$${(n / 1e6).toFixed(2).replace(/\.?0+$/, '')}M`; if (n >= 1e3) return `$${(n / 1e3).toFixed(1).replace(/\.0$/, '')}K`; if (n >= 1) return `$${n.toFixed(2)}`; return `$${tiny(n)}`; }
+export const short = (a: string, n = 4) => (a ? `${a.slice(0, 2 + n)}…${a.slice(-n)}` : '');
+export function ago(t: number): string { if (!t) return ''; const s = Math.max(0, Math.floor(Date.now() / 1000) - t); if (s < 60) return `${s}s ago`; if (s < 3600) return `${Math.floor(s / 60)}m ago`; if (s < 86400) return `${Math.floor(s / 3600)}h ago`; return `${Math.floor(s / 86400)}d ago`; }
+export const pct = (x: number, d = 1) => `${(x * 100).toFixed(d)}%`;
+/** Seconds as a short countdown: 1h 05m, 4m 20s, 35s. */
+/** Seconds as a plain duration: 1 hour, 15 minutes, 90 seconds. */
+export function duration(s: number): string { s = Math.max(0, Math.floor(s)); if (s % 3600 === 0 && s >= 3600) { const h = s / 3600; return `${h} hour${h > 1 ? 's' : ''}`; } if (s % 60 === 0 && s >= 60) return `${s / 60} minutes`; return `${s} seconds`; }
+export function countdown(s: number): string { s = Math.max(0, Math.floor(s)); if (s >= 3600) return `${Math.floor(s / 3600)}h ${String(Math.floor((s % 3600) / 60)).padStart(2, '0')}m`; if (s >= 60) return `${Math.floor(s / 60)}m ${String(s % 60).padStart(2, '0')}s`; return `${s}s`; }
+export function parseEthInput(s: string): bigint | null { const t = String(s || '').trim(); if (!/^\d*(\.\d{0,18})?$/.test(t) || t === '' || t === '.') return null; const [a, b = ''] = t.split('.'); return BigInt(a || '0') * WEI + BigInt((b + '0'.repeat(18)).slice(0, 18)); }
+export const priceLine = (priceWei: string, ethUsd: number) => { const p = Number(BigInt(priceWei)) / 1e18; return ethUsd ? usd(p * ethUsd) : `${tiny(p)} ETH`; };

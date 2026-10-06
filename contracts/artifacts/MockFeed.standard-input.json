@@ -1,0 +1,26 @@
+{
+ "language": "Solidity",
+ "sources": {
+  "MockFeed.sol": {
+   "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.28;\n\n/// @title MockFeed: a Chainlink-shaped ETH/USD feed for the tests (8 decimals, settable answer and age).\ncontract MockFeed {\n    int256 public answer;\n    uint256 public updatedAt;\n    uint8 public constant decimals = 8;\n    constructor(int256 answer_) { answer = answer_; updatedAt = block.timestamp; }\n    function set(int256 answer_, uint256 updatedAt_) external { answer = answer_; updatedAt = updatedAt_; }\n    function latestRoundData() external view returns (uint80, int256, uint256, uint256, uint80) { return (1, answer, updatedAt, updatedAt, 1); }\n}\n"
+  }
+ },
+ "settings": {
+  "optimizer": {
+   "enabled": true,
+   "runs": 2000
+  },
+  "evmVersion": "cancun",
+  "viaIR": true,
+  "outputSelection": {
+   "*": {
+    "*": [
+     "abi",
+     "evm.bytecode",
+     "evm.deployedBytecode",
+     "metadata"
+    ]
+   }
+  }
+ }
+}

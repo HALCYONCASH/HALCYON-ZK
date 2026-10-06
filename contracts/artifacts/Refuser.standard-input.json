@@ -1,0 +1,26 @@
+{
+ "language": "Solidity",
+ "sources": {
+  "Refuser.sol": {
+   "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.28;\n\n/// @title Refuser: a test double that refuses ETH, so the tests can see a push fall back to `claimable`.\ncontract Refuser {\n    receive() external payable { revert(\"no\"); }\n}\n"
+  }
+ },
+ "settings": {
+  "optimizer": {
+   "enabled": true,
+   "runs": 2000
+  },
+  "evmVersion": "cancun",
+  "viaIR": true,
+  "outputSelection": {
+   "*": {
+    "*": [
+     "abi",
+     "evm.bytecode",
+     "evm.deployedBytecode",
+     "metadata"
+    ]
+   }
+  }
+ }
+}

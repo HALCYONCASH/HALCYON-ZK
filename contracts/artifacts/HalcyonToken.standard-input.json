@@ -1,0 +1,26 @@
+{
+ "language": "Solidity",
+ "sources": {
+  "HalcyonToken.sol": {
+   "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.28;\n\n/// @title HalcyonToken: the coin. A plain ERC-20, minted once, with a burn and nothing else.\n/// Every Halcyon coin is an EIP-1167 clone of one verified implementation, initialized once by the launchpad, which mints the\n/// whole supply and puts it in the coin's Uniswap pool. No owner, no mint, no pause, no blacklist, no tax, no max wallet: the\n/// fee lives in the pool (the 1% tier, paid to the locked liquidity Halcyon holds), not in the coin.\ncontract HalcyonToken {\n    string public name;\n    string public symbol;\n    uint8 public constant decimals = 18;\n    uint256 public totalSupply;\n    mapping(address => uint256) public balanceOf;\n    mapping(address => mapping(address => uint256)) public allowance;\n    address public launchpad;\n\n    event Transfer(address indexed from, address indexed to, uint256 value);\n    event Approval(address indexed owner, address indexed spender, uint256 value);\n\n    /// @dev The implementation itself is never a coin: its slot is taken here so nobody can initialize it and pass it off as one.\n    /// A clone copies the code, not this storage, so every clone starts fresh and the launchpad initializes it.\n    constructor() {\n        launchpad = msg.sender;\n    }\n\n    /// @notice Called once by the launchpad on a fresh clone: name it and mint the supply to `to_`.\n    function initialize(string calldata name_, string calldata symbol_, uint256 supply_, address to_) external {\n        require(launchpad == address(0), \"initialized\");\n        require(bytes(name_).length > 0 && bytes(symbol_).length > 0 && supply_ > 0 && to_ != address(0), \"params\");\n        launchpad = msg.sender;\n        name = name_;\n        symbol = symbol_;\n        totalSupply = supply_;\n        balanceOf[to_] = supply_;\n        emit Transfer(address(0), to_, supply_);\n    }\n\n    function transfer(address to, uint256 value) external returns (bool) {\n        _transfer(msg.sender, to, value);\n        return true;\n    }\n\n    function approve(address spender, uint256 value) external returns (bool) {\n        allowance[msg.sender][spender] = value;\n        emit Approval(msg.sender, spender, value);\n        return true;\n    }\n\n    function transferFrom(address from, address to, uint256 value) external returns (bool) {\n        uint256 a = allowance[from][msg.sender];\n        if (a != type(uint256).max) {\n            require(a >= value, \"allowance\");\n            allowance[from][msg.sender] = a - value;\n        }\n        _transfer(from, to, value);\n        return true;\n    }\n\n    /// @notice Anyone may burn their own coins; the Burn module burns what it buys back.\n    function burn(uint256 value) external {\n        require(balanceOf[msg.sender] >= value, \"balance\");\n        balanceOf[msg.sender] -= value;\n        totalSupply -= value;\n        emit Transfer(msg.sender, address(0), value);\n    }\n\n    function _transfer(address from, address to, uint256 value) internal {\n        require(to != address(0), \"to zero\");\n        require(balanceOf[from] >= value, \"balance\");\n        balanceOf[from] -= value;\n        balanceOf[to] += value;\n        emit Transfer(from, to, value);\n    }\n}\n"
+  }
+ },
+ "settings": {
+  "optimizer": {
+   "enabled": true,
+   "runs": 2000
+  },
+  "evmVersion": "cancun",
+  "viaIR": true,
+  "outputSelection": {
+   "*": {
+    "*": [
+     "abi",
+     "evm.bytecode",
+     "evm.deployedBytecode",
+     "metadata"
+    ]
+   }
+  }
+ }
+}

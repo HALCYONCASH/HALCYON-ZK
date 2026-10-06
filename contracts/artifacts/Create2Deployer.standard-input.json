@@ -1,0 +1,26 @@
+{
+ "language": "Solidity",
+ "sources": {
+  "Create2Deployer.sol": {
+   "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.28;\n\n/// @title Create2Deployer: deploys a contract at an address chosen by a salt. The Halcyon hook needs an address whose low bits\n/// spell its permissions (Uniswap v4 reads them from the address), so the deploy script mines a salt and deploys it through here.\ncontract Create2Deployer {\n    event Deployed(address indexed at, bytes32 salt);\n    function deploy(bytes32 salt, bytes calldata initCode) external payable returns (address at) {\n        bytes memory code = initCode;\n        assembly (\"memory-safe\") { at := create2(callvalue(), add(code, 0x20), mload(code), salt) }\n        require(at != address(0), \"create2\");\n        emit Deployed(at, salt);\n    }\n    function predict(bytes32 salt, bytes32 initCodeHash) external view returns (address) {\n        return address(uint160(uint256(keccak256(abi.encodePacked(hex\"ff\", address(this), salt, initCodeHash)))));\n    }\n}\n"
+  }
+ },
+ "settings": {
+  "optimizer": {
+   "enabled": true,
+   "runs": 2000
+  },
+  "evmVersion": "cancun",
+  "viaIR": true,
+  "outputSelection": {
+   "*": {
+    "*": [
+     "abi",
+     "evm.bytecode",
+     "evm.deployedBytecode",
+     "metadata"
+    ]
+   }
+  }
+ }
+}

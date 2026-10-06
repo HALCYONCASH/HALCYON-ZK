@@ -1,0 +1,2 @@
+// The in-process EVM the contract tests run on (tests/contracts.test.mjs). No Hardhat compile: contracts/compile.mjs builds the artifacts with solc-js.
+module.exports = { solidity: '0.8.28', networks: { hardhat: { hardfork: 'cancun', chainId: 31337, allowUnlimitedContractSize: false, initialBaseFeePerGas: 1_000_000_000, accounts: { count: 10, accountsBalance: '100000000000000000000000' } } }, paths: { sources: './contracts/none', tests: './tests', artifacts: './.hardhat/artifacts', cache: './.hardhat/cache' } };

@@ -1,0 +1,26 @@
+# Every push and pull request: nothing secret in the tree, the types, the contracts against the real Uniswap bytecode on a local EVM,
+# the server, the deploy scripts against a hardhat node, and every page in a headless Chromium. About ten minutes on a GitHub runner.
+name: check
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: nothing that must not be pushed
+        run: node scripts/publish-check.mjs
+      - run: npm ci
+      - run: npm run build
+      - name: a Chromium for the browser checks
+        run: npx playwright-core install chromium
+      - run: npm run check
+        env:
+          HALCYON_NO_DOTENV: 1

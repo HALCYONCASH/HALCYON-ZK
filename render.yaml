@@ -1,0 +1,48 @@
+# Render blueprint: one web service with a persistent disk for the state, metadata and images.
+# After the first deploy, set the secrets in the dashboard: ETH_RPC_URL and HALCYON_GARDENER_KEY (PINATA_JWT, PINATA_GATEWAY_URL, HALCYON_PLATFORM_COIN and HALCYON_HIDDEN_COINS are optional; HALCYON_SOURCE_URL is the footer's link to the source). The contract addresses
+# come from deployments/<chain>.json in the repository; a HALCYON_* address set here still wins over the record.
+services:
+  - type: web
+    name: halcyon
+    runtime: node
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: node server.mjs
+    healthCheckPath: /healthz
+    disk:
+      name: halcyon-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: DATA_DIR
+        value: /data
+      - key: CHAIN_ID
+        value: 1
+      - key: HALCYON_SITE_NAME
+        value: Halcyon
+      - key: HALCYON_GARDENER_ENABLED
+        value: 0
+      - key: HALCYON_CONFIRMATIONS
+        value: 2
+      - key: ETH_RPC_URL
+        sync: false
+      - key: HALCYON_GARDENER_KEY
+        sync: false
+      - key: HALCYON_SOURCE_URL
+        value: https://github.com/HALCYONCASH/HALCYONZK
+      - key: PINATA_JWT
+        sync: false
+      - key: PINATA_GATEWAY_URL
+        sync: false
+      - key: HALCYON_PLATFORM_COIN
+        sync: false
+      - key: HALCYON_HIDDEN_COINS
+        sync: false
+      - key: PUBLIC_BASE_URL
+        value: https://halcyon.cash
+      - key: HALCYON_SITE_URL
+        value: https://halcyon.cash
+      - key: HALCYON_X
+        value: halcyoncash

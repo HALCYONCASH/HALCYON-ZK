@@ -1,0 +1,8 @@
+# One line ending everywhere, whatever the machine: the checks compare files by hash (the circuit setup, the verifier), so CRLF would be a change.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.svg text
+*.wasm binary
+*.zkey binary
+*.woff2 binary

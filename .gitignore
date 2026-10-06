@@ -1,0 +1,21 @@
+# What never goes into the repository. Keys and the state live in .env and .data; the rest is built or downloaded.
+node_modules/
+dist/
+.data/
+.data-demo/
+.hardhat/
+cache/
+zk/build/
+.env
+.env.*
+!.env.example
+*.zip
+*.log
+*.ptau
+deployments/local.json
+deployments/*.partial.json
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

@@ -1,0 +1,26 @@
+{
+ "language": "Solidity",
+ "sources": {
+  "MockStock.sol": {
+   "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.28;\n\n/// @title MockStock: a test double for a tokenized stock, with an issuer blocklist like the real ones have.\n/// Never deployed anywhere real; the tests give it a Uniswap v3 pool against WETH to exercise the Stock module end to end.\ncontract MockStock {\n    string public name = \"Mock Stock\";\n    string public symbol = \"mSTK\";\n    uint8 public constant decimals = 18;\n    uint256 public totalSupply;\n    mapping(address => uint256) public balanceOf;\n    mapping(address => mapping(address => uint256)) public allowance;\n    mapping(address => bool) public blocked;\n    event Transfer(address indexed from, address indexed to, uint256 value);\n    event Approval(address indexed owner, address indexed spender, uint256 value);\n    function mint(address to, uint256 value) external { totalSupply += value; balanceOf[to] += value; emit Transfer(address(0), to, value); }\n    function setBlocked(address a, bool b) external { blocked[a] = b; }\n    function transfer(address to, uint256 value) external returns (bool) { _move(msg.sender, to, value); return true; }\n    function approve(address spender, uint256 value) external returns (bool) { allowance[msg.sender][spender] = value; emit Approval(msg.sender, spender, value); return true; }\n    function transferFrom(address from, address to, uint256 value) external returns (bool) { uint256 a = allowance[from][msg.sender]; if (a != type(uint256).max) { require(a >= value, \"allowance\"); allowance[from][msg.sender] = a - value; } _move(from, to, value); return true; }\n    function _move(address from, address to, uint256 value) internal { require(!blocked[to] && !blocked[from], \"compliance\"); require(balanceOf[from] >= value, \"balance\"); balanceOf[from] -= value; balanceOf[to] += value; emit Transfer(from, to, value); }\n}\n"
+  }
+ },
+ "settings": {
+  "optimizer": {
+   "enabled": true,
+   "runs": 2000
+  },
+  "evmVersion": "cancun",
+  "viaIR": true,
+  "outputSelection": {
+   "*": {
+    "*": [
+     "abi",
+     "evm.bytecode",
+     "evm.deployedBytecode",
+     "metadata"
+    ]
+   }
+  }
+ }
+}
